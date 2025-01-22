@@ -21,7 +21,6 @@ jobs:
           BRANCH=$(echo "${GITHUB_REF##*/}" | tr '/' '-')
           VERSION="${DATE}-${SHORT_SHA}-${BRANCH}"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "VERSION=$VERSION" > .env
           echo "Generated Version: $VERSION"
 
       - name: Log in to Docker Hub
@@ -36,7 +35,4 @@ jobs:
       - name: Push Docker Image
         run: docker push zdrave893/petshop-app:${{ env.VERSION }}
 
-      - name: Save .env File
-        run: |
-          echo "Saving .env file with VERSION=$VERSION"
-          cat .env
+      

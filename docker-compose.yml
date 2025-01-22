@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   app:
-    image: zdrave893/petshop-app:${VERSION}
+    image: zdrave893/petshop-app:latest
     container_name: petshop-app
     ports:
       - "5000:5000"
@@ -11,6 +11,13 @@ services:
       - MONGO_URI=mongodb://mongo:27017/petshopdb
     depends_on:
       - mongo
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      
 
   mongo:
     image: mongo:latest
@@ -19,6 +26,6 @@ services:
       - petshop_data:/data/db
     ports:
       - "27017:27017"
-
+    restart: unless-stopped
 volumes:
   petshop_data:
