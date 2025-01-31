@@ -6,13 +6,15 @@
         <th>Name</th>
         <th>Type</th>
         <th>Age</th>
+        <th>ID</th>
         <th>Actions</th>
     </tr>
     {% for pet in pets %}
     <tr>
         <td>{{ pet.name }}</td>
         <td>{{ pet.type }}</td>
-        <td>{{ pet.age }}</td>
+        <td>{{ pet.age  }}</td>
+        <td>{{ pet._id  }}</td>
         <td>
             <a href="/edit/{{ pet._id }}" class="btn btn-sm btn-secondary me-2">Edit</a>
             <form action="/delete/{{ pet._id }}" method="post">
