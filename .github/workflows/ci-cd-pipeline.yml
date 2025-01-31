@@ -35,6 +35,8 @@
 #       - name: Push Docker Image
 #         run: docker push zdrave893/petshop-app:${{ env.VERSION }}
 
+# Triggering GitHub Actions workflow again
+
 
 name: Build and Push Docker Image
 
