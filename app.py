@@ -35,7 +35,6 @@ def add_pet():
 @app.route("/edit/<string:pet_id>", methods=["GET", "POST"])
 def edit_pet(pet_id):
     pet = mongo.db.pets.find_one({"_id": ObjectId(pet_id)})
-    print(pet)
     if not pet:
         return "Pet not found", 404
 
