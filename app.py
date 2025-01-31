@@ -32,7 +32,7 @@ def add_pet():
         return redirect(url_for("index"))
     return render_template("add.html")
 
-@app.route("/edit/<pet_id>", methods=["GET", "POST"])
+@app.route("/edit/<string:pet_id>", methods=["GET", "POST"])
 def edit_pet(pet_id):
     pet = mongo.db.pets.find_one({"_id": ObjectId(pet_id)})
     print(pet)
@@ -50,7 +50,7 @@ def edit_pet(pet_id):
 
     return render_template("edit.html", pet=pet)
 
-@app.route("/delete/<pet_id>",  methods=["POST"])
+@app.route("/delete/<string:pet_id>",  methods=["POST"])
 def delete_pet(pet_id):
     mongo.db.pets.delete_one({"_id": ObjectId(pet_id)})
     return redirect(url_for("index"))
