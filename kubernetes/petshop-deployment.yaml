@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petshop-app-deploy
+  namespace: petshop
+  labels:
+    app: petshop
+    environment: production
+    team: devops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petshop
+  template:
+    metadata:
+      labels:
+        app: petshop
+    spec:
+      containers:
+        - name: petshop-app
+          image: zdrave893/petshop-app:latest
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          envFrom:
+            - configMapRef:
+                name: petshop-app-configmap
+          env:
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: petshop-app-secret
+                  key: app-root-username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: petshop-app-secret
+                  key: app-root-password
+            - name: MONGO_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: petshop-app-configmap
+                  key: MONGO_URI
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 5000
+          #   initialDelaySeconds: 30
+          #   periodSeconds: 15
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 5000
+          #   initialDelaySeconds: 20
+          #   periodSeconds: 10
+          volumeMounts:
+            - mountPath: "/app/data"
+              name: app-storage
+      volumes:
+        - name: app-storage
+          persistentVolumeClaim:
+            claimName: app-pvc

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: petshop-db-headless
+  namespace: petshop
+spec:
+  clusterIP: None
+  selector:
+    app: petshop-db
+  publishNotReadyAddresses: true
+  ports:
+    - protocol: TCP
+      port: 27017

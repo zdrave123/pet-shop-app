@@ -1,0 +1,62 @@
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: petshop-app-ingress
+#   namespace: petshop
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: /
+#     nginx.ingress.kubernetes.io/enable-cors: "true"
+#     nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
+# spec:
+#   ingressClassName: nginx
+#   rules:
+#     - host: petshop.local
+#       http:
+#         paths:
+#           - path: /
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: petshop-app-service
+#                 port:
+#                   number: 5000
+#           - path: /health
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: petshop-app-service
+#                 port:
+#                   number: 5000
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: petshop-middleware
+  namespace: petshop
+spec:
+  stripPrefix:
+    forceSlash: false
+    prefixes:
+      - /
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: petshop-app-ingress
+  namespace: petshop
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+    traefik.ingress.kubernetes.io/router.middlewares: petshop-petshop-middleware@kubernetescrd
+spec:
+  ingressClassName: "traefik"
+  rules:
+    - host: petshop.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: petshop-app-service
+                port:
+                  number: 5000

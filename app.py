@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 
 # Configure MongoDB URI
-app.config["MONGO_URI"] = os.getenv("MONGO_URI","mongodb://mongo:27017/petshop")
+app.config["MONGO_URI"] = os.getenv("MONGO_URI")
 mongo = PyMongo(app)
 
 # Routes
@@ -13,6 +13,11 @@ mongo = PyMongo(app)
 def index():
     pets = mongo.db.pets.find()
     return render_template("index.html", pets=pets)
+
+
+@app.route("/health")
+def health_check():
+    return {"status": "healthy"}, 200
 
 @app.route("/add", methods=["GET", "POST"])
 def add_pet():
@@ -29,6 +34,7 @@ def add_pet():
 @app.route("/edit/<pet_id>", methods=["GET", "POST"])
 def edit_pet(pet_id):
     pet = mongo.db.pets.find_one({"_id": pet_id})
+    print(pet)
     if not pet:
         return "Pet not found", 404
 
