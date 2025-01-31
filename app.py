@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
 import os
 
 app = Flask(__name__)
@@ -33,7 +34,7 @@ def add_pet():
 
 @app.route("/edit/<pet_id>", methods=["GET", "POST"])
 def edit_pet(pet_id):
-    pet = mongo.db.pets.find_one({"_id": pet_id})
+    pet = mongo.db.pets.find_one({"_id": ObjectId(pet_id)})
     print(pet)
     if not pet:
         return "Pet not found", 404
@@ -44,14 +45,14 @@ def edit_pet(pet_id):
             "type": request.form["type"],
             "age": int(request.form["age"]),
         }
-        mongo.db.pets.update_one({"_id": pet_id}, {"$set": updated_pet})
+        mongo.db.pets.update_one({"_id": ObjectId(pet_id)}, {"$set": updated_pet})
         return redirect(url_for("index"))
 
     return render_template("edit.html", pet=pet)
 
-@app.route("/delete/<pet_id>")
+@app.route("/delete/<pet_id>",  methods=["POST"])
 def delete_pet(pet_id):
-    mongo.db.pets.delete_one({"_id": pet_id})
+    mongo.db.pets.delete_one({"_id": ObjectId(pet_id)})
     return redirect(url_for("index"))
 
 if __name__ == "__main__":
