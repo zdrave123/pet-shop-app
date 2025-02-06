@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: petshop-app
-          image: zdrave893/petshop-app:06-02-2025-16-44-daa51-master
+          image: zdrave893/petshop-app:06-02-2025-16-51-e1dfe-master
           ports:
             - containerPort: 5000
           resources:
