@@ -48,18 +48,18 @@ spec:
                 configMapKeyRef:
                   name: petshop-app-configmap
                   key: MONGO_URI
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: 5000
-          #   initialDelaySeconds: 30
-          #   periodSeconds: 15
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: 5000
-          #   initialDelaySeconds: 20
-          #   periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 60
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 40
+            periodSeconds: 10
           volumeMounts:
             - mountPath: "/app/data"
               name: app-storage
