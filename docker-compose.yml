@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   app:
-    image: zdrave893/petshop-app:10-02-2025-20-11-dde33-master
+    image: zdrave893/petshop-app:10-02-2025-20-15-de083-master
     container_name: petshop-app
     ports:
       - "5000:5000"
