@@ -20,7 +20,7 @@ services:
       
 
   mongo:
-    image: zdrave893/petshop-app:10-02-2025-20-11-dde33-master
+    image: mongo:4.4
     container_name: petshop-mongo
     volumes:
       - petshop_data:/data/db
