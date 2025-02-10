@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   app:
-    image: zdrave893/petshop-app:06-02-2025-16-51-e1dfe-master
+    image: zdrave893/petshop-app:10-02-2025-20-11-dde33-master
     container_name: petshop-app
     ports:
       - "5000:5000"
@@ -20,7 +20,7 @@ services:
       
 
   mongo:
-    image: zdrave893/petshop-app:06-02-2025-16-51-e1dfe-master
+    image: zdrave893/petshop-app:10-02-2025-20-11-dde33-master
     container_name: petshop-mongo
     volumes:
       - petshop_data:/data/db
