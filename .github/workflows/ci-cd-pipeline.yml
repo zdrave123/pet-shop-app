@@ -38,7 +38,7 @@ jobs:
       - name: Update Kubernetes and Docker Compose with New Image Version
         run: |
           sed -i "s|image: .*|image: ${{secrets.DOCKER_USERNAME}}/petshop-app:${{ env.VERSION }}|" kubernetes/petshop-deployment.yaml
-          sed -i "s|image: .*petshop-app:.*|image: ${{ secrets.DOCKER_USERNAME }}/petshop-app:${{ env.VERSION }}|" docker-compose.yml
+          sed -i "0,/image: .*petshop-app:.*/s|image: .*petshop-app:.*|image: ${{ secrets.DOCKER_USERNAME }}/petshop-app:${{ env.VERSION }}|" docker-compose.yml
           
           git config --global user.email "107679981+zdrave123@users.noreply.github.com"
           git config --global user.name "zdrave123"
